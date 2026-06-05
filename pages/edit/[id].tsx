@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { GetServerSideProps } from 'next'
+import type { GetServerSideProps } from 'next'
 import { prisma } from '../../lib/prisma'
 import NoticeForm, { NoticeFormValues } from '../../components/NoticeForm'
 
