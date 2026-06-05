@@ -25,12 +25,23 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [deletingId, setDeletingId] = useState<number | null>(null)
 
-  useEffect(() => {
-    fetch('/api/notices')
-      .then(r => r.json())
-      .then(data => { setNotices(data); setLoading(false) })
-      .catch(() => setLoading(false))
-  }, [])
+ useEffect(() => {
+  fetch('/api/notices')
+    .then(r => r.json())
+    .then(data => {
+      if (Array.isArray(data)) {
+        setNotices(data)
+      } else {
+        console.error('API Error:', data)
+        setNotices([])
+      }
+      setLoading(false)
+    })
+    .catch(err => {
+      console.error(err)
+      setLoading(false)
+    })
+}, [])
 
   async function handleDelete(id: number, title: string) {
     if (!confirm(`Delete "${title}"?\n\nThis action cannot be undone.`)) return
